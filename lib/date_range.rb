@@ -11,10 +11,3 @@ module Hotel
   end
 end 
 
-
-# expect {Card.new(14, :clovers)}.must_raise ArgumentError
-
-# if (value > 13 || value < 1) || (suit_array.include?(suit) == false)
-#   raise ArgumentError, "You must provide a value 1..13 or suit
-#   (:hearts, :spades, :clubs, :diamonds)"
-# end 
