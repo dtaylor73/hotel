@@ -4,7 +4,7 @@ require "Pry"
 describe "Hotel_System" do 
   before do 
     #Arrange
-    rooms = [Hotel::Room.new(room_number: 2, room_cost: 200)]
+    rooms = Hotel::Room.load_all
     reservations = 
       [
       Hotel::Reservation.new(id: 1, 
@@ -16,7 +16,6 @@ describe "Hotel_System" do
     #Act
     @hotel_system = Hotel::Hotel_System.new(rooms: rooms, 
     reservations: reservations)
-    # binding.pry
   end
 
   describe "Hotel_System instantiation" do
@@ -33,4 +32,26 @@ describe "Hotel_System" do
       expect(@hotel_system.reservations[0]).must_be_kind_of Hotel::Reservation
     end
   end 
+
+  describe "list_rooms" do
+    it "returns a list of all the rooms in the hotel" do
+
+      expect(@hotel_system.list_rooms).must_be_kind_of Array
+
+      expect(@hotel_system.list_rooms.length).must_equal 20
+      expect(@hotel_system.list_rooms[0]).must_be_kind_of Hotel::Room
+    end
+  end
+
+  # describe "make_reservation" do
+  #   it "makes a reservation when given a date range" do
+  #     #Act
+  #     result = make_reservation(Date.parse("2019-03-05"), Date.parse("2019-03-07"))
+  #     #Assert
+  #     expect(@hotel_system.make_reservation).must_be_kind_of Hotel::Reservation
+  #   end 
+
+    # it "pushes new reservation to Hotel_System's array of reservations" do 
+  #   # end 
+  # end
 end 

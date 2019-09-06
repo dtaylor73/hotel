@@ -8,9 +8,9 @@ module Hotel
     end
 
     def self.load_all
-      room_instances_array = (1..20).map do |i|
-        self.new(room_number:[i],
-        room_cost: 200)
+      (1..20).map do |i|
+      self.new(room_number:[i],
+      room_cost: 200)
       end 
     end
   end
