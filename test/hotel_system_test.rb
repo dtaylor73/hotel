@@ -17,6 +17,7 @@ describe "Hotel_System" do
     #Act
     @hotel_system = Hotel::Hotel_System.new(rooms: rooms, 
     reservations: reservations)
+
   end
 
   describe "Hotel_System instantiation" do
@@ -93,7 +94,21 @@ describe "Hotel_System" do
       expect(result.length).must_equal 1
     end
   end
+  #Wave 2
+  describe "list_available_rooms" do
+    it "lists available rooms for a given date" do
+      #Arrange
+      start_date = Date.parse("2019-02-03")
+      end_date = Date.parse("2019-02-05")
+
+      #Act
+      result = @hotel_system.list_available_rooms(start_date, end_date)
+
+      #Assert
+      expect(result).must_be_kind_of Array
+      result.each {|room| expect(room).must_be_kind_of Hotel::Room}
+      expect(result.length).must_equal 19
+    end 
+  end 
 end 
 
-# I can access the list of reservations for a specific date, so that I can track reservations 
-# by date
