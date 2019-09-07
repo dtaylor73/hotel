@@ -1,5 +1,6 @@
 require_relative "test_helper"
 require "Pry"
+require "minitest/skip_dsl"
 
 describe "Hotel_System" do 
   before do 
@@ -43,15 +44,56 @@ describe "Hotel_System" do
     end
   end
 
-  # describe "make_reservation" do
-  #   it "makes a reservation when given a date range" do
-  #     #Act
-  #     result = make_reservation(Date.parse("2019-03-05"), Date.parse("2019-03-07"))
-  #     #Assert
-  #     expect(@hotel_system.make_reservation).must_be_kind_of Hotel::Reservation
-  #   end 
+  describe "make_reservation" do
+    it "makes a reservation when given a date range" do
+      #Arrange
+      # start_date = @hotel_system.reservations[0].date_range.start_date
+      # end_date = @hotel_system.reservations[0].date_range.end_date
+      start_date = Date.parse("2019-02-08")
+      end_date = Date.parse("2019-02-12")
 
-    # it "pushes new reservation to Hotel_System's array of reservations" do 
-  #   # end 
-  # end
+      #Act
+      result = @hotel_system.make_reservation(start_date, end_date)
+
+      #Assert
+      expect(result).must_be_kind_of Array
+      expect(result[1]).must_be_kind_of Hotel::Reservation
+      expect(result[1].date_range.start_date).must_equal start_date
+      expect(result[1].date_range.end_date).must_equal end_date
+    end 
+
+    it "pushes a new reservation to Hotel_System's reservation instance variable" do 
+      #Arrange
+      # start_date = @hotel_system.reservations[0].date_range.start_date
+      # end_date = @hotel_system.reservations[0].date_range.end_date
+      start_date = Date.parse("2019-02-08")
+      end_date = Date.parse("2019-02-12")
+
+      #Act
+      result = @hotel_system.make_reservation(start_date, end_date)
+
+      #Assert
+      expect(@hotel_system.reservations.length).must_equal 2
+    end 
+  end
+
+  describe "find_reservation" do
+    it "finds reservations booked for a specific date" do
+      #Arrange
+      start_date = Date.parse("2019-12-11")
+      end_date = Date.parse("2019-12-17")
+      
+      #Act
+      @hotel_system.make_reservation(start_date, end_date)
+      result = @hotel_system.find_reservation(start_date, end_date)
+      
+      #Assert
+      expect(result).must_be_kind_of Array
+      expect(result[0]).must_be_kind_of Hotel::Reservation
+      expect(result.length).must_equal 1
+    end
+  end
 end 
+
+# I can access the list of reservations for a specific date, so that I can track reservations 
+# by date
