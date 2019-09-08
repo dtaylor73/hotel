@@ -8,7 +8,7 @@ describe "Hotel_System" do
     rooms = Hotel::Room.load_all
     reservations = 
       [
-      Hotel::Reservation.new(id: 1, 
+      Hotel::Reservation.new( 
       room: Hotel::Room.new(room_number: 3, room_cost: 200), 
       date_range: Hotel::Date_Range.new(start_date: Date.parse("2019-02-03"),
       end_date: Date.parse("2019-02-05")))
@@ -17,7 +17,6 @@ describe "Hotel_System" do
     #Act
     @hotel_system = Hotel::Hotel_System.new(rooms: rooms, 
     reservations: reservations)
-
   end
 
   describe "Hotel_System instantiation" do
@@ -76,6 +75,21 @@ describe "Hotel_System" do
       #Assert
       expect(@hotel_system.reservations.length).must_equal 2
     end 
+
+    it "Raises an argument error if there are no rooms available for the given date range" do
+      #Arrange
+      start_date = Date.parse("2019-02-03")
+      end_date = Date.parse("2019-02-05")
+
+      #Act
+      19.times do 
+        @hotel_system.make_reservation(start_date, end_date)
+      end
+      # @hotel_system.reservations[0].room.room_number
+
+      #Assert
+      expect{@hotel_system.make_reservation(start_date, end_date)}.must_raise ArgumentError
+    end 
   end
 
   describe "find_reservation" do
@@ -94,6 +108,7 @@ describe "Hotel_System" do
       expect(result.length).must_equal 1
     end
   end
+
   #Wave 2
   describe "list_available_rooms" do
     it "lists available rooms for a given date" do

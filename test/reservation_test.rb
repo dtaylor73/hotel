@@ -3,12 +3,11 @@ require_relative "test_helper"
 describe "Reservation" do 
   before do
     #Arrange
-    id = 1
     room = Hotel::Room.new(room_number: 1, room_cost: 200)
     date_range = Hotel::Date_Range.new(start_date: Date.parse("2019-02-03"), end_date: Date.parse("2019-02-05"))
 
     #Act
-    @reservation = Hotel::Reservation.new(id: id, 
+    @reservation = Hotel::Reservation.new(
       room: room, 
       date_range: date_range
     )

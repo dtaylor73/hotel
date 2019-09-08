@@ -3,11 +3,10 @@ require "pry"
 module Hotel
   class Reservation
     # attr_reader is making the instance variables readable
-    attr_reader :id, :room, :date_range, :total_cost
+    attr_reader :room, :date_range, :total_cost
 
     # parameter is just taking in input from user
-    def initialize(id: , room: , date_range: )
-      @id = id
+    def initialize(room: , date_range: )
       @room = room
       @date_range = date_range
       @total_cost = calculate_reservation_cost
