@@ -1,0 +1,11 @@
+Room Class
+
+  I definitely did not need a room class. My current room class made things has no useful methods. Also, since the rooms instance variable 
+  in hotel system is an array of room objects, it made it harder to access the room numbers. I ended up making unnecessary methods in hotel system
+  like "list_available_room_numbers" because I had to extract the room numbers from the room objects. If I had no room class and 
+  simply just made the rooms instance variable in hotel system an array of integers 1 -20, I wouldn't need the extra methods.
+  Also, there was no reason to list the room cost. Every room is $200 and total cost is calculated in the reservations class. 
+
+Use of Let 
+
+  Try to use let when you refactor hotel. Before is useful, but I feel like let could dry up your code. 
