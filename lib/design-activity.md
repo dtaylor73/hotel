@@ -6,7 +6,7 @@ Answer: Implementation A - The CartEntry class creates a single CartEntry object
 Answer: Implementation B - The CartEntry class now stores a state AND a behavior. It is instantiated with unit_price and quantity, and holds a method that calculates and returns the item/s subtotal. The ShoppingCart class keeps track of the CartEntry objects, and now holds a method that calls on CartEntry to return the sum price of all its entry objects. The Order class holds a method that returns the total price of all the entries. Now, instead of calculating the subtotal itself, the class simply asks the ShoppingCart class for the sum price of all the entry objects and then multiplies the sales_tax to that subtotal to return the total_price. 
 
 Question 3: How do the classes relate to each other? It might be helpful to draw a diagram on a whiteboard or piece of paper.
-Answer: In both implementations, the Order class has one ShoppingCart object, and the ShoppingCart class has many cart entry objects. 
+Answer: In both implementations, the Order class has one ShoppingCart object, and the ShoppingCart class has many cart entry objects.
 
 
 Question 4: What data does each class store? How (if at all) does this differ between the two implementations?
@@ -28,3 +28,20 @@ Answer: Implementation B. Unlike Implementation A, Implementation B does not sto
 
 Question 9: 
 Answer: Implementation B is more loosely coupled. Implementation A's Order class knows too much about the ShoppingCart and CartEntry classes. It has to dig through class objects to get the data it needs. If the "unit_price" and "entry" names change in CartEntry, it will break the code in Order. 
+
+
+Hotel Re-design
+
+The Hotel_System class takes on entirely too much responsibility. I need to delegate more responsibility to the Reservation class. Instead of having Hotel_System so much logic, I will put the majority of it in 
+Reservation. 
+
+First, I plan to remove the Rooms class and make all references to room just be an integer. This will make it easier to access just room numbers, instead of digging through a room object. 
+
+I plan to let Reservation do the logic to make a reservation, make a list of reserved rooms for a given 
+date range and also specifically find the room numbers for a given reservation.
+
+I plan to let Hotel_System asks Reservation for WHAT it needs, not HOW it does it. So in each of my 
+methods in Hotel_Sytem, the majority of them will call a Reservation method on an instance of Reservation. This way, the classes aren't so tightly coupled. 
+
+I'll also let the Date_Range class calculate the cost of stay, and raise an argument error if a given
+start date comes after a given end date. 

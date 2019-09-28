@@ -1,12 +1,13 @@
-require "Pry"
+
+require "pry"
 module Hotel
   class Hotel_System
     attr_reader :rooms
-    attr_accessor :reservations
+    attr_accessor :reservation
 
-    def initialize(rooms: Hotel::Room.load_all, reservations: [])
-      @rooms = rooms
-      @reservations = reservations 
+    def initialize(rooms: [], reservation: nil )
+      @rooms = rooms 
+      @reservation =  reservation
     end
 
     def list_rooms
@@ -17,60 +18,34 @@ module Hotel
       raise ArgumentError, "There are no rooms available for that given date range."
     end
 
-    def list_available_room_numbers(start_date, end_date)
-      available_rooms = list_available_rooms(start_date, end_date)
-      available_room_numbers = available_rooms.map do |room|
-        available_rooms[0].room_number
-      end 
-      available_room_numbers.sample
-    end 
-
-    def make_reservation(start_date, end_date)
-
-      if list_available_room_numbers(start_date, end_date) == nil
+    def reservation?(room, start_date, end_date)
+      available_room = list_available_rooms(start_date, end_date)
+     
+      if available_room.sample == nil
         no_rooms_available
       else 
-        reservations << Hotel::Reservation.new(
-        room: Hotel::Room.new(room_number: list_available_room_numbers(start_date, end_date), room_cost: 200), 
-        date_range: Hotel::Date_Range.new(start_date: start_date,
-        end_date: end_date)) 
+        reservation.make_reservation(room, start_date, end_date)
       end
     end
 
     def find_reservation(start_date, end_date)
-      found_reservations = []
-      reservations.each do |reservation|
-
-        if (reservation.date_range.start_date >= start_date && reservation.date_range.start_date < end_date) || 
-          (reservation.date_range.end_date >= start_date && reservation.date_range.end_date <= end_date)
-          found_reservations.push(reservation)
-        end
-      end
-      found_reservations
+      reservation.find_reservation(start_date, end_date)
     end
 
-    def list_available_rooms (start_date, end_date)
+    def list_available_rooms(start_date, end_date)
       booked_rooms = list_reserved_room_numbers(start_date, end_date)
+
       available_rooms = []
       rooms.each do |room|
-        if booked_rooms.include?(room.room_number) == false
+        if booked_rooms.include?(room) == false
           available_rooms.push(room)
         end
       end
       available_rooms
     end 
 
-    def list_reserved_room_numbers(start_date, end_date)
-      reserved_room_numbers = []
-      reservations.each do |reservation|
-
-        if (reservation.date_range.start_date >= start_date && reservation.date_range.start_date < end_date) || 
-          (reservation.date_range.end_date >= start_date && reservation.date_range.end_date <= end_date)
-          reserved_room_numbers.push(reservation.room.room_number)
-        end
-      end 
-      reserved_room_numbers
-
+    def list_reserved_room_numbers(requested_start_date, requested_end_date)
+      reservation.list_reserved_room_numbers(requested_start_date, requested_end_date)
     end
   end
 end

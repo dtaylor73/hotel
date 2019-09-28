@@ -1,18 +1,47 @@
-require "pry"
+
 
 module Hotel
   class Reservation
-    attr_reader :room, :date_range, :total_cost
+    attr_reader :room, :start_date, :end_date
+    attr_accessor :total_reservations
 
-    def initialize(room: , date_range: )
+    def initialize(room: , start_date: , end_date: , total_reservations: [])
       @room = room
-      @date_range = date_range
-      @total_cost = calculate_reservation_cost
+      @start_date = start_date
+      @end_date = end_date
+      @total_reservations = total_reservations
     end 
 
-    def calculate_reservation_cost
-      duration_of_stay = date_range.end_date - date_range.start_date
-      duration_of_stay.to_i * 200
+    def make_reservation(room, requested_start_date, requested_end_date)
+      total_reservations << Reservation.new(
+      room: room, 
+      start_date: start_date,
+      end_date: end_date)
     end
-  end
+
+    def list_reserved_room_numbers(requested_start_date, requested_end_date)
+      reserved_rooms = []
+
+      total_reservations.each do |reservation|
+        if (start_date >= requested_start_date && end_date < requested_end_date) ||
+          (end_date >= requested_start_date && end_date <= requested_end_date)
+          reserved_rooms.push(room)
+        end
+      end 
+      reserved_rooms 
+    end
+
+    def find_reservation(requested_start_date, requested_end_date)
+      found_reservations = []
+
+      total_reservations.each do |reservation|
+        if (start_date >= requested_start_date && start_date < requested_end_date) || 
+          (end_date >= requested_start_date && end_date <= requested_end_date)
+          found_reservations.push(reservation)
+        end
+      end
+      found_reservations
+    end 
+  end 
 end
+
